@@ -12,16 +12,14 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: after_route
+        - id: user_route
+          uri: lb://user-center
+          predicates:
+            - Path=/users/**
+        - id: content_route
           uri: lb://content-center
           predicates:
-            ##- After=2010-01-20T17:42:47.789-07:00[America/Denver]
-            - TimeBetween=上午0:00,下午11:59
-          filters:
-            - PreLog=a,b
-#          ##请求头增加过滤器
-#          - filters:
-#              - AddRequestHeader=X-Request-Foo, Bar
+            - Path=/shares/**,/admin/**
 management:
   endpoints:
     web:
